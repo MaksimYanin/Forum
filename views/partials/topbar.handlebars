@@ -1,0 +1,23 @@
+<header id="topBar" class="bgWhite">
+    <a id='headerLogo' class="headerText colorMedium linkTextNoDecor hoverColorAccent left" href="/">Форум</a>
+    {{#if user}}
+        <div id="headerProfileBlock" class='right relative vertAlignItemsMid'>
+            <button class="bigBtn bgAccent hoverBgSpecial roundBorder"
+                    onclick="showPopup('createPostPopup')">Создать пост
+            </button>
+            <img src="https://api.adorable.io/avatars/128/{{user.username}}.png"
+                 class='roundImg smallAvatar inlineBlock' alt="">
+            <a id='showMenu' class="headerText colorMedium linkTextNoDecor hoverColorAccent" id="showMenu"
+               onclick="showDropdown('profileOptionsList')">{{user.username}} ▼</a>
+            {{>profileOptionsList}}
+        </div>
+    {{else}}
+        <div id="headerProfileBlock" class='right relative'>
+            <a id="signUpButton" class="headerText colorMedium linkTextNoDecor hoverColorAccent"
+               onclick=showPopup('signupPopup')>Регистрация</a>
+            <a id="logInButton" class="headerText colorMedium linkTextNoDecor hoverColorAccent"
+               onclick=showPopup('loginPopup')>Войти</a>
+        </div>
+    {{/if}}
+</header>
+

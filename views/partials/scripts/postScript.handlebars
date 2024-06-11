@@ -1,0 +1,65 @@
+<script>
+   
+    const deleteReply = (id) => {
+        let post = {
+            id: id
+        };
+        fetch('/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(post)
+        }).then(() => {
+            location.reload();
+        });
+    }
+    const editReply = (id, text) => {
+        document.getElementById('editReply').value = text;
+        document.getElementById('editReply').focus();
+        document.getElementById('sendReply').onsubmit = async (e) => {
+            e.preventDefault();
+            let post = {
+                id: id,
+                text: document.getElementById('sendReply').replyEdition.value
+            }
+            fetch('/edit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(post)
+            }).then(() => {
+                location.reload();
+            });
+        };
+    }
+    let hideBtn = document.querySelector('#hideReplyFormBtn')
+    let composeBtn = document.querySelector('#composeReplyBtn')
+    let replyForm = document.querySelector('#replyForm')
+
+    composeBtn.onclick = () => {
+        replyForm.classList.remove('hidden')
+        composeBtn.classList.add('hidden')
+
+    }
+    hideBtn.onclick = () => {
+        replyForm.classList.add('hidden')
+        composeBtn.classList.remove('hidden')
+    }
+    {{#if message}}
+        if ('{{message}}' === 'Passwords do not match') {
+            showPopup('signupPopup')
+            document.getElementById('signUpError').innerHTML = 'Пароли не совпадают';
+        } else if ('{{message}}' === 'User exists') {
+          showPopup('signupPopup')
+            document.getElementById('signUpError').innerHTML = 'Пользователь существует';
+        } else if ('{{message}}' === 'Wrong login or password') {
+          showPopup('loginPopup')
+            document.getElementById('loginErrorText').innerHTML = 'Неправильный пароль или логин';
+        } else if ('{{message}}' === 'not auth action' ) {
+            showPopup('loginPopup')
+            document.getElementById('loginErrorText').innerHTML = 'Сначала войдите';
+        }
+        {{/if}}
+</script>

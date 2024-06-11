@@ -1,0 +1,66 @@
+<script>
+    const deletePost = (id) => {
+        let post = {
+            id: id
+        };
+        fetch('/post/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(post)
+        }).then(() => {
+            location.reload();
+        });
+    }
+    const editPost = (id, category, text) => {
+        document.getElementById('editPost').value = text;
+        document.getElementById('editPost').focus()
+        document.getElementById('sendEdition').onsubmit = async (e) => {
+            e.preventDefault();
+            let post = {
+                id: id,
+                category: category,
+                text: document.getElementById('sendEdition').edition.value
+            }
+            fetch('/post/edit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(post)
+            }).then((res) => {
+                if (res.ok) {
+                    location.reload();
+                } else {
+                    location.href = '/category/myPosts?postFail=true`';
+                }
+            });
+        };
+    }
+    if ('{{sortTag}}'.endsWith('Asc')) {
+        const sortLinkId = '{{sortTag}}'.replace('Asc', '')
+        document.getElementById(sortLinkId).classList.add('visitedColor');
+        document.getElementById(sortLinkId + 'SortLink').innerHTML = "↑";
+    } else {
+        const sortLinkId = '{{sortTag}}';
+        document.getElementById(sortLinkId).classList.add('visitedColor');
+        document.getElementById(sortLinkId + 'SortLink').innerHTML = "↓";
+    }
+    
+    {{#if message}}
+        if ('{{message}}' === 'Passwords do not match') {
+            showPopup('signupPopup')
+            document.getElementById('signUpError').innerHTML = 'Пароли не совпадают';
+        } else if ('{{message}}' === 'User exists') {
+          showPopup('signupPopup')
+            document.getElementById('signUpError').innerHTML = 'Пользователь существует';
+        } else if ('{{message}}' === 'Wrong login or password') {
+          showPopup('loginPopup')
+            document.getElementById('loginErrorText').innerHTML = 'Неправильный пароль или логин';
+        } else if ('{{message}}' === 'not auth action' ) {
+            showPopup('loginPopup')
+            document.getElementById('loginErrorText').innerHTML = 'Сначала войдите';
+        }
+        {{/if}}
+</script>

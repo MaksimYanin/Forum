@@ -1,0 +1,89 @@
+{
+  "models": [
+    {
+      "tablename": "replies",
+      "columns": [
+        "id",
+        "author_id",
+        "post_id",
+        "text",
+        "creation_time",
+        "FOREIGN KEY(author_id)",
+        "FOREIGN KEY(post_id)"
+      ],
+      "tags": [
+        "INTEGER PRIMARY KEY",
+        "INTEGER",
+        "INTEGER",
+        "TEXT NOT NULL",
+        "TEXT",
+        "REFERENCES users(id) ON DELETE SET DEFAULT ",
+        "REFERENCES posts(id) ON DELETE CASCADE"
+      ]
+    },
+    {
+      "tablename": "votes",
+      "columns": [
+        "id",
+        "user_id",
+        "reply_id",
+        "amount",
+        "FOREIGN KEY(user_id)",
+        "FOREIGN KEY(reply_id)"
+      ],
+      "tags": [
+        "INTEGER PRIMARY KEY",
+        "INTEGER DEFAULT NULL",
+        "INTEGER",
+        "INTEGER",
+        "REFERENCES users(id) ON DELETE SET DEFAULT",
+        "REFERENCES replies(id) ON DELETE CASCADE"
+      ]
+    },
+    {
+      "tablename": "posts",
+      "columns": [
+        "id",
+        "author_id",
+        "title",
+        "category_id",
+        "creation_time",
+        "FOREIGN KEY(author_id)",
+        "FOREIGN KEY(category_id)"
+      ],
+      "tags": [
+        "INTEGER PRIMARY KEY",
+        "INTEGER DEFAULT NULL",
+        "TEXT DEFAULT \"NO TITLE\" NOT NULL",
+        "INTEGER",
+        "TEXT",
+        "REFERENCES users(id) ON DELETE SET DEFAULT",
+        "REFERENCES categories(id) ON DELETE CASCADE"
+      ]
+    },
+    {
+      "tablename": "users",
+      "columns": [
+        "id",
+        "username",
+        "password"
+      ],
+      "tags": [
+        "INTEGER PRIMARY KEY",
+        "TEXT NOT NULL UNIQUE",
+        "TEXT"
+      ]
+    },
+    {
+      "tablename": "categories",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "tags": [
+        "INTEGER PRIMARY KEY",
+        "TEXT"
+      ]
+    }
+  ]
+}
